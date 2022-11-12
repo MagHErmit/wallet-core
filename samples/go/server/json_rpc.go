@@ -112,6 +112,8 @@ func (t *JSONServer) SignTx(r *http.Request, args *Args, reply *string) error {
 			return err
 		}
 		*reply = res
+	default:
+		return errors.New("gate is unknown")
 	}
 	return nil
 }

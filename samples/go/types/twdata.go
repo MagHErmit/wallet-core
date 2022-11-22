@@ -29,3 +29,9 @@ func TWDataCreateWithGoBytes(d []byte) unsafe.Pointer {
 func TWDataHexString(d unsafe.Pointer) string {
 	return hex.EncodeToString(TWDataGoBytes(d))
 }
+
+// Go hex string -> C.TWData
+func TWDataCreateWithGoHex(bt string) unsafe.Pointer {
+	data := C.TWDataCreateWithHexString(TWStringCreateWithGoString(bt))
+	return data
+}

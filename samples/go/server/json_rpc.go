@@ -21,13 +21,7 @@ type JSONServer struct {
 	MN string
 }
 
-func ParseBtc(args *Args, mn string) (string, error) {
-	// bitcoin wallet
-	bw, err := core.CreateWalletWithMnemonic(mn, core.CoinTypeBitcoin)
-	if err != nil {
-		log.Println(err)
-		return "", err
-	}
+func ParseBtc(args *Args, bw *core.Wallet) (string, error) {
 
 	// extract necessary info
 	lockScript := core.BitcoinScriptLockScriptForAddress(bw.Address, bw.CoinType)
@@ -103,17 +97,36 @@ func signingTx(inputData proto.Message, ct core.CoinType, outputData proto.Messa
 }
 
 func (t *JSONServer) SignTx(r *http.Request, args *Args, reply *string) error {
+	coinType, err := core.GetCoinByName(args.Gate)
+	if err != nil {
+		return err
+	}
+
+	wallet, err := core.CreateWalletWithMnemonic(t.MN, coinType)
+	if err != nil {
+		return err
+	}
+
 	// main switch
-	switch args.Gate {
-	case "bitcoin":
-		res, err := ParseBtc(args, t.MN)
+	switch coinType {
+	case core.CoinTypeBitcoin:
+		res, err := ParseBtc(args, wallet)
 		if err != nil {
 			log.Println(err)
 			return err
 		}
 		*reply = res
-	default:
-		return errors.New("gate is unknown")
+		return nil
+	}
+
+	bz, err := jsonparse.Marshal(args.Tx)
+	if err != nil {
+		return err
+	}
+
+	*reply, err = core.CreateSignedTxFromJson(bz, wallet.PriKey, wallet.CoinType)
+	if err != nil {
+		return err
 	}
 	return nil
 }

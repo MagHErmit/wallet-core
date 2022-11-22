@@ -6,7 +6,11 @@ package core
 // #include <TrustWalletCore/TWCoinTypeConfiguration.h>
 import "C"
 
-import "tw/types"
+import (
+	"errors"
+	"strings"
+	"tw/types"
+)
 
 type CoinType uint32
 
@@ -108,6 +112,113 @@ const (
 	CoinTypeAptos                CoinType = C.TWCoinTypeAptos
 	CoinTypeHedera               CoinType = C.TWCoinTypeHedera
 )
+
+var stringToCoinType = map[string]CoinType{
+	"bitcoin":              CoinTypeBitcoin,
+	"binance":              CoinTypeBinance,
+	"ethereum":             CoinTypeEthereum,
+	"tron":                 CoinTypeTron,
+	"aeternity":            CoinTypeAeternity,
+	"aion":                 CoinTypeAion,
+	"bitcoinCash":          CoinTypeBitcoinCash,
+	"bitcoinGold":          CoinTypeBitcoinGold,
+	"callisto":             CoinTypeCallisto,
+	"cardano":              CoinTypeCardano,
+	"cosmos":               CoinTypeCosmos,
+	"dash":                 CoinTypeDash,
+	"decred":               CoinTypeDecred,
+	"digiByte":             CoinTypeDigiByte,
+	"dogecoin":             CoinTypeDogecoin,
+	"eos":                  CoinTypeEOS,
+	"ethereumclassic":      CoinTypeEthereumClassic,
+	"fio":                  CoinTypeFIO,
+	"gochain":              CoinTypeGoChain,
+	"groestlcoin":          CoinTypeGroestlcoin,
+	"icon":                 CoinTypeICON,
+	"iotex":                CoinTypeIoTeX,
+	"kava":                 CoinTypeKava,
+	"kin":                  CoinTypeKin,
+	"litecoin":             CoinTypeLitecoin,
+	"monacoin":             CoinTypeMonacoin,
+	"nebulas":              CoinTypeNebulas,
+	"nULS":                 CoinTypeNULS,
+	"nano":                 CoinTypeNano,
+	"near":                 CoinTypeNEAR,
+	"nimiq":                CoinTypeNimiq,
+	"ontology":             CoinTypeOntology,
+	"poanetwork":           CoinTypePOANetwork,
+	"qtum":                 CoinTypeQtum,
+	"xrp":                  CoinTypeXRP,
+	"solana":               CoinTypeSolana,
+	"stellar":              CoinTypeStellar,
+	"tezos":                CoinTypeTezos,
+	"theta":                CoinTypeTheta,
+	"thundertoken":         CoinTypeThunderToken,
+	"neo":                  CoinTypeNEO,
+	"tomochain":            CoinTypeTomoChain,
+	"vechain":              CoinTypeVeChain,
+	"viacoin":              CoinTypeViacoin,
+	"wanchain":             CoinTypeWanchain,
+	"zcash":                CoinTypeZcash,
+	"firo":                 CoinTypeFiro,
+	"zilliqa":              CoinTypeZilliqa,
+	"zelcash":              CoinTypeZelcash,
+	"ravencoin":            CoinTypeRavencoin,
+	"waves":                CoinTypeWaves,
+	"terra":                CoinTypeTerra,
+	"terraV2":              CoinTypeTerraV2,
+	"harmony":              CoinTypeHarmony,
+	"algorand":             CoinTypeAlgorand,
+	"kusama":               CoinTypeKusama,
+	"polkadot":             CoinTypePolkadot,
+	"filecoin":             CoinTypeFilecoin,
+	"elrond":               CoinTypeElrond,
+	"bandchain":            CoinTypeBandChain,
+	"smartchainlegacy":     CoinTypeSmartChainLegacy,
+	"smartchain":           CoinTypeSmartChain,
+	"oasis":                CoinTypeOasis,
+	"polygon":              CoinTypePolygon,
+	"thorchain":            CoinTypeTHORChain,
+	"bluzelle":             CoinTypeBluzelle,
+	"optimism":             CoinTypeOptimism,
+	"zksync":               CoinTypeZksync,
+	"arbitrum":             CoinTypeArbitrum,
+	"ecochain":             CoinTypeECOChain,
+	"avalanchecchain":      CoinTypeAvalancheCChain,
+	"xdai":                 CoinTypeXDai,
+	"fantom":               CoinTypeFantom,
+	"cryptoorg":            CoinTypeCryptoOrg,
+	"celo":                 CoinTypeCelo,
+	"ronin":                CoinTypeRonin,
+	"osmosis":              CoinTypeOsmosis,
+	"ecash":                CoinTypeECash,
+	"cronoschain":          CoinTypeCronosChain,
+	"smartbitcoincash":     CoinTypeSmartBitcoinCash,
+	"kucoincommunitychain": CoinTypeKuCoinCommunityChain,
+	"boba":                 CoinTypeBoba,
+	"metis":                CoinTypeMetis,
+	"aurora":               CoinTypeAurora,
+	"evmos":                CoinTypeEvmos,
+	"nativeevmos":          CoinTypeNativeEvmos,
+	"moonriver":            CoinTypeMoonriver,
+	"moonbeam":             CoinTypeMoonbeam,
+	"kavaevm":              CoinTypeKavaEvm,
+	"klaytn":               CoinTypeKlaytn,
+	"meter":                CoinTypeMeter,
+	"okxchain":             CoinTypeOKXChain,
+	"nervos":               CoinTypeNervos,
+	"everscale":            CoinTypeEverscale,
+	"aptos":                CoinTypeAptos,
+	"hedera":               CoinTypeHedera,
+}
+
+func GetCoinByName(name string) (CoinType, error) {
+	x, found := stringToCoinType[strings.ToLower(name)]
+	if !found {
+		return x, errors.New("coin not supported")
+	}
+	return x, nil
+}
 
 func (c CoinType) GetName() string {
 	name := C.TWCoinTypeConfigurationGetName(C.enum_TWCoinType(c))

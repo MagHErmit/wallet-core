@@ -6,7 +6,7 @@ This folder contains a small **Go** sample integration with
 [Wallet Core](https://github.com/trustwallet/wallet-core) library (part of [Trust Wallet](https://trustwallet.com)),
 using [cgo](https://golang.org/cmd/cgo/).
 
-## Tx Example 
+## Tx example for Bitcoin 
 ```json lines
 POST http://localhost:8080/api/v1/sign_transaction
 Content-Type: application/json
@@ -38,7 +38,7 @@ Content-Type: application/json
   ]
 }
 ```
-## Response example
+## Response example for Bitcoin
 ```json lines
 http://localhost:8080/api/v1/sign_transaction
 
@@ -54,7 +54,41 @@ Content-Length: 490
   "id": 1
 }
 ```
+## Tx example for Ethereum
+```json lines
+POST http://localhost:8080/api/v1/sign_transaction
+Content-Type: application/json
 
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "JSONServer.SignTx",
+    "params": [
+        {
+            "gate":"ethereum",
+            "tx": {
+              "chainId":"BA==","gasPrice":"F0h26AA=","gasLimit":"Ugg=","toAddress":"0xE9B511C0753649E5F3E78Ed8AdBEE92d0d2Db384","transaction":{"transfer":{"amount":"A0i8paFgAA=="}}
+            }
+        }
+    ]
+}
+```
+## Response example for Ethereum
+```json lines
+http://localhost:8080/api/v1/sign_transaction
+
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+X-Content-Type-Options: nosniff
+Date: Tue, 22 Nov 2022 18:09:38 GMT
+Content-Length: 252
+
+{
+"result": "f86b8085174876e80082520894e9b511c0753649e5f3e78ed8adbee92d0d2db384870348bca5a16000802ba0d3f734d3ec46ea79568ea2a9d797ade66d524c3536c0f07b7c4ec6cd248af373a03035dc6dffca420d7c7cbc34e4f594f01049e9cab3cadea5ee338631b61ed72d",
+"error": null,
+"id": 1
+}
+```
 
 ## 📜 Documentation
 

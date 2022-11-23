@@ -90,6 +90,65 @@ Content-Length: 252
 }
 ```
 
+## Supported coins for jsonrpc-signing
+```
+bitcoin
+binance
+ethereum
+callisto
+cosmos
+ethereumclassic
+gochain
+kava
+nano
+poanetwork
+solana
+tezos
+theta
+thundertoken
+tomochain
+vechain
+wanchain
+zilliqa
+terra
+terraV2
+harmony
+algorand
+filecoin
+elrond
+bandchain
+smartchainlegacy
+smartchain
+polygon
+thorchain
+bluzelle
+optimism
+zksync
+arbitrum
+ecochain
+avalanchecchain
+xdai
+fantom
+cryptoorg
+celo
+ronin
+osmosis
+cronoschain
+smartbitcoincash
+kucoincommunitychain
+boba
+metis
+aurora
+evmos
+nativeevmos
+moonriver
+moonbeam
+kavaevm
+klaytn
+meter
+okxchain
+```
+
 ## 📜 Documentation
 
 See the official [Trust Wallet developer documentation here](https://developer.trustwallet.com).
